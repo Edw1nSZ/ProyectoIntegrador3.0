@@ -1,0 +1,25 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Deploy to Render/Railway
+        run: ./deploy.sh
